@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRPO Advantage Calculation - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>GRPO Group Advantage</h1>
+                <p class="description">
+                    DeepSeek GRPO 的核心机制：无需 Critic 模型，通过对同一 Prompt 生成的一组输出进行相对打分来计算优势。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" class="grpo-grid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Script will inject content here -->
+                </div>
+                <div class="code-reference">
+                    <span id="codeBadge" class="step-badge">grpo_trainer.py:274</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>数学逻辑</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>Group Statistics</h4>
+                    <pre><code># grpo_trainer.py:234
+group_means = rewards.mean(dim=1)
+group_stds = rewards.std(dim=1)</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>Advantage Normalization</h4>
+                    <pre><code># grpo_trainer.py:244
+adv = (rewards - mean) / (std + 1e-4)</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="grpo_math_script.js"></script>
+</body>
+</html>

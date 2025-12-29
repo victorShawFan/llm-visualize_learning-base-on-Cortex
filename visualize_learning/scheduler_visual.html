@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习率调度与优化器可视化</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .scheduler-viz {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 500px;
+            height: 300px;
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            position: relative;
+            margin: 40px;
+        }
+        .y-axis-label {
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: rotate(-90deg);
+            font-size: 14px;
+        }
+        .x-axis-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+        .data-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #e67e22;
+            border-radius: 50%;
+        }
+        .current-step-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(231, 76, 60, 0.5);
+            border-left: 1px dashed #e74c3c;
+            transition: left 0.3s;
+        }
+        .optimizer-state {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .state-box {
+            padding: 10px;
+            background: #ebf5fb;
+            border: 1px solid #5dade2;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>学习率调度 (LR Scheduler) 与优化器</h1>
+        <p class="description">可视化 <code>WarmupCosineAnnealingLR</code> 的变化曲线及 AdamW 的权重更新逻辑。</p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label>Warmup Iters:</label>
+                <input type="number" id="warmupInput" value="20" min="0" max="100">
+            </div>
+            <div class="input-group">
+                <label>Period Mul:</label>
+                <input type="number" id="periodMulInput" value="2" min="0" max="4">
+            </div>
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">前进 (Train Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="mask_visual.html">Mask</a> | <a href="kv_cache.html">KV</a> | <a href="model.html">架构</a> | <a href="attention_detail.html">注意</a> | <a href="rope_visual.html">RoPE</a> | <a href="moe_visual.html">MoE</a> | <a href="vlm_visual.html">VLM</a> | <a href="dataset_visual.html">数据流</a> | <a href="scheduler_visual.html">调度器</a> | <a href="parallel_visual.html">并行</a> | <a href="sampling_visual.html">采样</a> | <a href="sft_visual.html">SFT</a> | <a href="grpo_visual.html">GRPO</a> | <a href="ppo_visual.html">PPO</a> | <a href="dpo_visual.html">DPO</a> | <a href="loss_math_visual.html">Loss</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“前进”模拟训练步数。
+        </div>
+
+        <div class="visualization-area" id="visualContent">
+            <div class="scheduler-viz">
+                <div class="chart-container" id="chart">
+                    <div class="y-axis-label">Learning Rate</div>
+                    <div class="x-axis-label">Training Steps</div>
+                    <div class="current-step-line" id="stepLine"></div>
+                </div>
+                <div class="optimizer-state" id="optState">
+                    <!-- 动态内容 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="code-ref">
+            <h3>代码实现细节 (scheduler.py & AdamW)：</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+    <script src="scheduler_script.js"></script>
+</body>
+</html>

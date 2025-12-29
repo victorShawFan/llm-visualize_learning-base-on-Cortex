@@ -1,0 +1,116 @@
+.grpo-viz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.prompt-box {
+    padding: 20px 30px;
+    border: 2px solid #3182ce;
+    background: #ebf8ff;
+    border-radius: 12px;
+    width: 90%;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    color: #2c5282;
+}
+
+.completions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.completion-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 10px;
+    transition: var(--transition);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.completion-item:hover {
+    transform: translateX(5px);
+    border-color: #cbd5e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.completion-text {
+    flex: 1;
+    font-size: 0.95em;
+    color: #4a5568;
+}
+
+.reward-tag {
+    background: #ecc94b;
+    color: #744210;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: 800;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);
+}
+
+.advantage-tag {
+    background: #48bb78;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: 800;
+    min-width: 80px;
+    text-align: center;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);
+}
+
+.stats-box {
+    display: flex;
+    gap: 30px;
+    background: #fffaf0;
+    padding: 12px 30px;
+    border-radius: 10px;
+    border: 1px solid #feebc8;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #7b341e;
+}
+
+.arrow-down {
+    font-size: 2em;
+    color: #cbd5e0;
+    font-weight: 300;
+}
+
+.highlight-update {
+    animation: pulse 2s infinite;
+}
+
+.math-note {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #718096;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.model-node {
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: 2px solid #2d3748;
+    background: #f7fafc;
+}
+
+.model-node.policy { border-color: #3182ce; background: #ebf8ff; color: #2c5282; }
+.model-node.ref { border-color: #718096; background: #edf2f7; color: #4a5568; }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练循环与指标聚合可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .loop-viz { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 30px; }
+        .rank-grid { display: flex; gap: 20px; justify-content: center; width: 100%; }
+        .rank-box {
+            width: 180px; padding: 20px; border: 2px solid var(--border-color); border-radius: 16px;
+            background: white; text-align: center; box-shadow: var(--shadow-md); transition: all 0.3s ease;
+        }
+        .rank-box.active { border-color: var(--primary-color); box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .metric-val { font-size: 1.2em; font-weight: 800; color: var(--primary-color); margin: 10px 0; }
+        .arrow-line { height: 2px; background: var(--border-color); flex-grow: 1; position: relative; margin: 0 10px; }
+        .all-reduce-ring {
+            width: 100px; height: 100px; border: 4px dashed var(--success-color); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; animation: rotate 10s linear infinite;
+        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Training Loop & Metrics Aggregation</h1>
+        <p class="description">
+            深度解析 <code>llm_trainer/trainer.py</code>。理解梯度累积（Gradient Accumulation）、分布式指标平均（All-Reduce）以及定期评估（Evaluation）的完整工作流。
+        </p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset Loop</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”进入训练与评估流程。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="loop-viz"></div>
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考 (trainer.py & eval.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="parallel_visual.html">Distributed</a>
+            <a href="eval_visual.html" style="background: var(--primary-light);">Metrics & Eval</a>
+            <a href="scheduler_visual.html">Scheduler</a>
+        </div>
+    </div>
+    <script src="eval_script.js"></script>
+</body>
+</html>

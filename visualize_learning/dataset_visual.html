@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortex Learning: Dataset & Tokenizer Pipeline</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dataset_style.css">
+    <style>
+        /* Temporarily override container width for this specific visual if needed, 
+           but dataset_style.css handles most specific components */
+        .container {
+            max-width: 1000px; /* Slightly wider for data tables/grids */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Data Pipeline & Tokenization</h1>
+            <p class="subtitle">From Raw JSON to Training Tensors: The Life of a Sample</p>
+        </header>
+
+        <div class="controls-wrapper">
+            <div class="nav-links">
+                <a href="index.html">[ Home ]</a>
+                <a href="mask_visual.html">Mask</a>
+                <a href="kv_cache.html">KV Cache</a>
+                <a href="model.html">Model</a>
+                <a href="dataset_visual.html" class="active">Dataset</a>
+                <a href="sampling_visual.html">Sampling</a>
+                <a href="sft_visual.html">SFT</a>
+                <a href="ppo_visual.html">RLHF</a>
+            </div>
+            
+            <div class="control-panel">
+                <button id="prevStep" class="btn secondary" disabled>Previous Step</button>
+                <div class="step-indicator" id="stepIndicator">Step 0/5</div>
+                <button id="nextStep" class="btn primary">Next Step</button>
+                <button id="reset" class="btn warning">Reset</button>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            <div class="loader">Waiting for user action...</div>
+        </div>
+
+        <div class="visualization-area" id="visualContent">
+            <!-- Dynamic Content Injected Here by dataset_script.js -->
+        </div>
+
+        <div class="code-section">
+            <div class="code-header">
+                <span>Core Implementation Logic</span>
+                <span class="file-tag">dataset.py</span>
+            </div>
+            <pre><code id="codeSnippet" class="language-python"># Code will appear here...</code></pre>
+        </div>
+    </div>
+
+    <script src="dataset_script.js"></script>
+</body>
+</html>

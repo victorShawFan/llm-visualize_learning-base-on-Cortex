@@ -1,0 +1,130 @@
+/* 适配 "副本" 风格的 Mask Visual 样式 */
+
+.visualization-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    /* 移除之前的背景框样式，保持简洁 */
+    background: transparent;
+    border: none;
+}
+
+.tensor-container {
+    text-align: center;
+    /* 增加滑入动画，保持一点动态感，虽然副本没有但体验更好 */
+    animation: slideUp 0.5s ease-out;
+}
+
+.tensor-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #2c3e50;
+    font-family: 'Segoe UI', sans-serif;
+    background: transparent;
+    padding: 0;
+}
+
+/* 核心 Grid 样式 - 模仿副本 */
+.grid {
+    display: grid;
+    gap: 2px;
+    border: 2px solid #34495e;
+    background-color: #34495e; /* 深色背景，形成 grid 线条效果 */
+    padding: 2px;
+    border-radius: 0; /* 副本通常是直角或微圆角 */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.cell {
+    width: 50px; /* 稍微调小以适应长序列 */
+    height: 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85em;
+    font-family: monospace; /* 对应副本的 monospace */
+    transition: all 0.5s ease; /* 对应副本的慢速过渡 */
+    border-radius: 0; /* 直角 */
+    font-weight: normal;
+    border: none; /* 移除之前的 border，依靠 grid gap */
+}
+
+/* 颜色适配 */
+.cell.valid {
+    background: #d4edda; /* 浅绿 */
+    color: #155724;
+}
+
+.cell.masked-causal {
+    background: #f8d7da; /* 浅红 */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.cell.masked-pad {
+    background: #fff3cd; /* 浅黄 */
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.cell.masked-doc {
+    background: #e2d9f3; /* 浅紫 */
+    color: #512da8;
+    border: 1px solid #d1c4e9;
+}
+
+/* 新增 past 样式，风格保持一致 */
+.cell.past {
+    background: #e2e3e5; /* 浅灰/中性色，表示历史/固定 */
+    color: #383d41;
+}
+
+.cell.highlight {
+    border: 2px solid #f1c40f;
+    box-shadow: inset 0 0 5px #f1c40f;
+    z-index: 1; /* 浮起 */
+}
+
+/* 移除之前的伪元素图标 */
+.cell::before, .cell::after {
+    content: none !important;
+    display: none;
+}
+
+/* 辅助元素 */
+.plus-sign {
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.combine-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 步数徽章适配 */
+.step-badge {
+    background: #3498db;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-right: 8px;
+    vertical-align: middle;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPO Trainer 可视化学习</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="ppo_style.css">
+</head>
+<body>
+        <div class="container">
+        <h1>PPO (Proximal Policy Optimization) 训练流程可视化</h1>
+        <p class="description">本页面展示了 <code>llm_trainer/ppo_trainer.py</code> / <code>loss.py</code> 中经典 PPO 算法的 <b>一次完整迭代</b>：从 Rollout 采样、KL+Env 奖励融合，到 GAE 计算与 PPOLoss 裁剪更新。</p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">下一步 (Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="mask_visual.html">Mask</a> | <a href="kv_cache.html">KV</a> | <a href="model.html">架构</a> | <a href="attention_detail.html">注意</a> | <a href="rope_visual.html">RoPE</a> | <a href="moe_visual.html">MoE</a> | <a href="vlm_visual.html">VLM</a> | <a href="dataset_visual.html">数据流</a> | <a href="scheduler_visual.html">调度器</a> | <a href="parallel_visual.html">并行</a> | <a href="sampling_visual.html">采样</a> | <a href="sft_visual.html">SFT</a> | <a href="grpo_visual.html">GRPO</a> | <a href="ppo_visual.html">PPO</a> | <a href="dpo_visual.html">DPO</a> | <a href="loss_math_visual.html">Loss</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”开始演示 PPO 的采样与优化循环。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="ppo-viz">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考 (ppo_trainer.py)：</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+    <script src="ppo_script.js"></script>
+</body>
+</html>

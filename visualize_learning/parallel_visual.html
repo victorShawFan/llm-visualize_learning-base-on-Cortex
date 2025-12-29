@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分布式并行与 Checkpoint 可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .parallel-viz { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 30px; }
+        .gpu-cluster { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; width: 100%; position: relative; }
+        .gpu-card {
+            width: 160px; height: 240px; border: 2px solid var(--border-color); border-radius: 20px;
+            background: white; display: flex; flex-direction: column; padding: 20px; position: relative;
+            box-shadow: var(--shadow-lg); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+        .gpu-card h4 {
+            margin: 0 0 15px 0; text-align: center; font-size: 14px; font-weight: 800;
+            color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 8px;
+        }
+        .info-panel {
+            background: #f8fafc; padding: 25px; border-radius: 16px; font-size: 15px; width: 100%;
+            border: 1px solid var(--border-color); margin-top: 20px; color: var(--text-muted);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Distributed Compute & Checkpoints</h1>
+        <p class="description">
+            深度解析 <code>llm_trainer/parallel.py</code> 与 <code>ds_checkpoint.py</code>。理解 NCCL 初始化、ZeRO-3 参数分片与收集、以及分布式权重合并的完整闭环。
+        </p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset Cluster</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            准备开始分布式集群解析。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="parallel-viz">
+                <div class="gpu-cluster" id="gpuCluster"></div>
+            </div>
+        </div>
+
+        <div class="info-panel" id="detailPanel">
+            ZeRO (Zero Redundancy Optimizer) 是 DeepSpeed 提供的显存优化核心技术，通过分片存储模型状态实现千亿级参数训练。
+        </div>
+
+        <div class="code-ref">
+            <h3>并行与存储源码参考</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="model.html">Architecture</a>
+            <a href="dataset_visual.html">Data Pipeline</a>
+            <a href="parallel_visual.html" style="background: var(--primary-light);">Distributed</a>
+            <a href="sampling_visual.html">Generation</a>
+            <a href="loss_math_visual.html">Loss Math</a>
+        </div>
+    </div>
+    <script src="parallel_script.js"></script>
+</body>
+</html>

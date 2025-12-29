@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loss Function Implementation - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Loss Implementation Deep Dive</h1>
+                <p class="description">
+                    深入 LMLoss 与 KDLoss 的代码级实现细节，包括张量展平、Critical Token 加权与知识蒸馏逻辑。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span>/4</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="loss-container" class="loss-grid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div class="step-info">
+                    <h2 id="step-title">Logits Shift & Flatten</h2>
+                    <p id="step-desc">预测下一个 Token 时，Logits 需要错位对齐。为了适应 `cross_entropy`，必须将 (Batch, Seq) 维度展平。</p>
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">loss.py:52</span>
+                    <code>logits = shift_logits.reshape(-1, vocab_size)</code>
+                </div>
+                <div class="controls">
+                    <button id="prev-btn" disabled>上一步</button>
+                    <button id="next-btn">下一步</button>
+                    <button id="reset-btn">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>核心实现逻辑</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>Critical Token Weighting</h4>
+                    <pre><code># loss.py:37
+self.weights = torch.ones(vocab_size)
+self.weights[self.critical_tokens] = critical_alpha
+# loss.py:65
+F.cross_entropy(..., weight=self.weights)</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>Knowledge Distillation</h4>
+                    <pre><code># loss.py:127
+prod_probs = teacher_probs * student_logprobs
+# loss.py:135
+distil_loss = -torch.sum(x * mask) / mask.sum()</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="loss_impl_script.js"></script>
+</body>
+</html>

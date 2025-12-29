@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparse MoE 架构专家可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .moe-viz { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 25px; }
+        .tensor-container { background: white; border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; box-shadow: var(--shadow-md); }
+        .token-node { animation: fadeIn 0.5s ease-out; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sparse Mixture of Experts</h1>
+        <p class="description">
+            深度解析 <code>llm_model/sparse_moe.py</code>。MoE 通过门控机制将计算负载动态分配给特定专家，并结合 DeepSeek 风格的共享专家以增强通用表达能力。
+        </p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label>Top-K 激活专家:</label>
+                <input type="number" id="topKInput" value="2" min="1" max="4">
+            </div>
+            <div class="input-group">
+                <label>专家总数:</label>
+                <input type="number" id="nExpertsInput" value="8" min="4" max="16">
+            </div>
+            <div class="input-group">
+                <label>Mode:</label>
+                <select id="modeSelect">
+                    <option value="train">Training (Repeat)</option>
+                    <option value="infer">Inference (Sort/Group)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Aux Loss:</label>
+                <select id="auxType">
+                    <option value="seq">Seq-Level (Local)</option>
+                    <option value="global">Global (Batch)</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            准备开始 MoE 的分发与汇聚演练。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="moe-viz"></div>
+        </div>
+
+        <div class="code-ref">
+            <h3>PyTorch 源码同步 (cortex_pkg_src/llm_model/sparse_moe.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="model.html">Architecture</a>
+            <a href="rope_visual.html">RoPE</a>
+            <a href="moe_visual.html" style="background: var(--primary-light);">MoE</a>
+            <a href="vlm_visual.html">VLM</a>
+            <a href="grpo_visual.html">GRPO/RLHF</a>
+            <a href="loss_math_visual.html">Loss Math</a>
+        </div>
+    </div>
+    <script src="moe_script.js"></script>
+</body>
+</html>

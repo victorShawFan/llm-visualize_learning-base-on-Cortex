@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成采样策略可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .sampling-viz { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 30px; }
+        .prob-chart {
+            display: grid; 
+            /* grid-template-columns set by JS dynamically */
+            align-items: flex-end; 
+            gap: 12px; 
+            height: 320px; 
+            padding: 40px;
+            background: white; 
+            border-radius: 20px; 
+            box-shadow: var(--shadow-lg); 
+            width: 100%; 
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .bar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .prob-bar {
+            width: 50px; 
+            background: var(--primary-color); 
+            border-radius: 8px 8px 2px 2px;
+            position: relative; 
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .prob-bar.masked {
+            background: #e2e8f0;
+            opacity: 0.3;
+            height: 5px !important; /* Visual collapse */
+            box-shadow: none;
+        }
+
+        .prob-bar.cut-candidate {
+            background: #fc8181;
+            opacity: 0.6;
+        }
+
+        .prob-bar.active {
+            background: var(--success-color); 
+            box-shadow: 0 0 20px rgba(72, 187, 120, 0.6);
+            transform: scaleY(1.05);
+        }
+
+        .token-label {
+            margin-top: 12px;
+            font-size: 13px; 
+            font-weight: 600; 
+            color: var(--text-main); 
+            white-space: nowrap;
+            transition: color 0.3s;
+        }
+        
+        .masked + .token-label {
+            color: #cbd5e0;
+            text-decoration: line-through;
+        }
+
+        .val-tag {
+            margin-bottom: 8px;
+            font-size: 11px; 
+            font-weight: 800; 
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .stats-panel {
+            width: 100%; 
+            max-width: 600px; 
+            text-align: center; 
+            padding: 20px;
+            background: #fffaf0; 
+            border-radius: 16px; 
+            border: 2px dashed #ecc94b;
+            color: #b7791f;
+            font-weight: 600;
+            min-height: 24px;
+        }
+        
+        /* Animation for Reordering */
+        .bar-col {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generation Sampling</h1>
+        <p class="description">
+            深度解析 <code>llm_trainer/generate_utils.py</code>。探索 Logit 抑制、温度缩放、Top-K/Top-P 过滤以及多项式分布采样是如何塑造模型输出的。
+        </p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label>Temperature:</label>
+                <input type="number" id="tempInput" value="1.0" step="0.1" min="0.1" max="2.0">
+            </div>
+            <div class="input-group">
+                <label>Top-K:</label>
+                <input type="number" id="topKInput" value="5" min="1" max="10">
+            </div>
+            <div class="input-group">
+                <label>Top-P:</label>
+                <input type="number" id="topPInput" value="0.9" step="0.05" min="0.1" max="1.0">
+            </div>
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”观察 Logits 的演变过程。
+        </div>
+
+        <div class="visualization-area" id="visualContent">
+            <div class="sampling-viz">
+                <div class="prob-chart" id="chart"></div>
+                <div class="stats-panel" id="stats">Ready to sample...</div>
+            </div>
+        </div>
+
+        <div class="code-ref">
+            <h3>PyTorch 源码同步 (llm_trainer/generate_utils.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="model.html">Architecture</a>
+            <a href="rope_visual.html">RoPE</a>
+            <a href="moe_visual.html">MoE</a>
+            <a href="kv_cache.html">KV Cache</a>
+            <a href="sampling_visual.html" style="background: var(--primary-light);">Sampling</a>
+            <a href="loss_math_visual.html">Loss Math</a>
+        </div>
+    </div>
+    <script src="sampling_script.js"></script>
+</body>
+</html>

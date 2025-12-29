@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norm & Activation 可视化学习</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .math-box {
+            background: #fdf2e9;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e67e22;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+        .vector-block {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #edf2f7;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .element {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .op-node {
+            padding: 10px 20px;
+            background: #ebf8ff;
+            border: 2px solid #3182ce;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RMSNorm & SwiGLU 可视化</h1>
+        <p class="description">探索 Llama/DeepSeek 中常用的 RMSNorm 归一化和 SwiGLU 激活函数的内部数学逻辑。</p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label>Weight (Gamma):</label>
+                <input type="number" id="gammaInput" value="1.5" step="0.1">
+            </div>
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">下一步 (Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="mask_visual.html">Mask</a> | <a href="kv_cache.html">KV</a> | <a href="model.html">架构</a> | <a href="attention_detail.html">注意</a> | <a href="rope_visual.html">RoPE</a> | <a href="moe_visual.html">MoE</a> | <a href="vlm_visual.html">VLM</a> | <a href="dataset_visual.html">数据</a> | <a href="scheduler_visual.html">调度</a> | <a href="parallel_visual.html">并行</a> | <a href="sampling_visual.html">采样</a> | <a href="sft_visual.html">SFT</a> | <a href="grpo_visual.html">GRPO</a> | <a href="ppo_visual.html">PPO</a> | <a href="dpo_visual.html">DPO</a> | <a href="loss_math_visual.html">Loss</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”开始演示。
+        </div>
+
+        <div class="visualization-area" id="visualContent">
+            <!-- Content -->
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考 (llm_model.py)：</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+    <script src="norm_act_script.js"></script>
+</body>
+</html>

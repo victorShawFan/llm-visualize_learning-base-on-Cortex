@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Data Pipeline 总览 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Offline Data Pipeline 总览</h1>
+        <p class="description">从原始 JSON / Parquet 到预训练 .pkl 分桶：可视化 <code>process_data.py</code> 与 <code>dataset.py</code> 之间的数据工程链路。</p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">下一步 (Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="dataset_visual.html">Dataset & Tokenizer</a> |
+                <a href="batch_gen_visual.html">Batch Inference</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”按顺序浏览 Cortex 离线数据处理的完整流程。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent">
+                <!-- JS 动态插入内容 -->
+            </div>
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考 (process_data.py / dataset.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+
+    <script src="data_pipeline_script.js"></script>
+</body>
+</html>
+

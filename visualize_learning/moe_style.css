@@ -1,0 +1,94 @@
+.moe-viz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.token-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.token-node {
+    padding: 10px;
+    border: 2px solid #34495e;
+    background: #ecf0f1;
+    border-radius: 5px;
+    font-weight: bold;
+    min-width: 80px;
+    text-align: center;
+}
+
+.gate-box {
+    padding: 20px;
+    border: 2px solid #2980b9;
+    background: #ebf5fb;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+}
+
+.experts-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.expert-node {
+    padding: 15px;
+    border: 1px solid #7f8c8d;
+    background: #fff;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.9em;
+    transition: all 0.3s;
+}
+
+.expert-node.active {
+    border-color: #27ae60;
+    background: #d5f5e3;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.route-line {
+    font-size: 0.8em;
+    color: #e67e22;
+    font-weight: bold;
+}
+
+.shared-expert {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px dashed #8e44ad;
+    background: #f5eef8;
+    border-radius: 8px;
+    width: 60%;
+    text-align: center;
+}
+
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #27ae60;
+    background: #e9f7ef;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.score-tag {
+    font-size: 0.75em;
+    color: #34495e;
+    display: block;
+    margin-top: 5px;
+}
+
+.arrow-down {
+    font-size: 1.5em;
+    color: #bdc3c7;
+}

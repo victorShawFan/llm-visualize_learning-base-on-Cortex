@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPO Rollout Data Flow - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>PPO Experience Rollout</h1>
+                <p class="description">
+                    可视化 PPO 训练中的数据采集过程 (Make Experience)。观察 Prompt 如何经过 Policy/Ref 模型生成数据，并计算 LogProbs、Values 和 Rewards。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span>/10</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="rollout-container" class="rollout-grid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div class="step-info">
+                    <h2 id="step-title">Batch Generation (Policy)</h2>
+                    <p id="step-desc">使用当前策略模型（Policy Model）根据 Prompts 生成 Completions。此时模型需要 Unwrap 并移除 Dropout 以确保生成确定性。</p>
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">ppo_trainer.py:299</span>
+                    <code>full_ids, logitss = batch_generate(model=policy_model, tokens=prompt_ids, ...)</code>
+                </div>
+                <div class="controls">
+                    <button id="prev-btn" disabled>上一步</button>
+                    <button id="next-btn">下一步</button>
+                    <button id="reset-btn">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>Rollout 核心逻辑</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>Value & Ref LogProbs</h4>
+                    <pre><code># ppo_trainer.py:315
+value_output = unwrapped_model.value_model(full_ids)
+# ppo_trainer.py:324
+ref_outputs = unwrapped_ref_model(full_ids)
+old_log_probs = log_softmax(logitss, completion_ids)</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>Rewards Composition</h4>
+                    <pre><code># ppo_trainer.py:344
+env_rewards = reward_func(prompts, completions, answers)
+# ppo_trainer.py:342
+kl_rewards = -ppo_config.kl_beta * kl
+rewards = kl_rewards + env_rewards (at last token)</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="ppo_rollout_script.js"></script>
+</body>
+</html>

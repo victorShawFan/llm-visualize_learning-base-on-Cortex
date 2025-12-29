@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention 内部流程详解</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="attn_style.css">
+    <style>
+        @keyframes scaleUp {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .anim-scale { animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; }
+        
+        @keyframes scanRow {
+            0% { background: #d6eaf8; }
+            50% { background: #3498db; color:white; }
+            100% { background: #d6eaf8; }
+        }
+        .anim-scan-row { animation: scanRow 1s infinite; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attention 核心机制内部流程可视化</h1>
+        <p class="description">深入展示 <code>Attention.forward</code> 函数内部的矩阵变换、RoPE 应用及 GQA 逻辑。</p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">下一步 (Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="mask_visual.html">Mask</a> | <a href="kv_cache.html">KV</a> | <a href="model.html">架构</a> | <a href="attention_detail.html">注意</a> | <a href="rope_visual.html">RoPE</a> | <a href="moe_visual.html">MoE</a> | <a href="vlm_visual.html">VLM</a> | <a href="dataset_visual.html">数据</a> | <a href="scheduler_visual.html">调度</a> | <a href="parallel_visual.html">并行</a> | <a href="sampling_visual.html">采样</a> | <a href="sft_visual.html">SFT</a> | <a href="grpo_visual.html">GRPO</a> | <a href="ppo_visual.html">PPO</a> | <a href="dpo_visual.html">DPO</a> | <a href="loss_math_visual.html">Loss</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”开始解析 Attention 内部细节。
+        </div>
+
+        <div class="visualization-area" id="visualContent">
+            <!-- 动态内容 -->
+        </div>
+
+        <div class="code-ref">
+            <h3>代码实现细节 (Attention.forward)：</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+    <script src="attn_script.js"></script>
+</body>
+</html>

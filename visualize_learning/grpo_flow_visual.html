@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRPO Training Flow - Cortex LLM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 10px;
+        }
+
+        /* Tree Visualization for Group Sampling */
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-height: 300px;
+            justify-content: center;
+        }
+
+        .node {
+            padding: 8px 16px;
+            border-radius: 6px;
+            background: #fff;
+            border: 2px solid #bdc3c7;
+            text-align: center;
+            font-size: 14px;
+            transition: all 0.5s;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .node.prompt {
+            background: #e3f2fd;
+            border-color: #3498db;
+            margin-bottom: 40px;
+        }
+
+        .branch-row {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .branch-line {
+            position: absolute;
+            background: #bdc3c7;
+            z-index: 1;
+            transition: all 0.5s;
+        }
+
+        .node.completion {
+            width: 120px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .score-badge {
+            background: #f1c40f;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-top: 5px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s;
+        }
+        .score-badge.visible { opacity: 1; transform: scale(1); }
+
+        .adv-badge {
+            background: #2ecc71; 
+            margin-top: 5px;
+            font-size: 12px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: white;
+            display: none;
+        }
+        .adv-badge.visible { display: block; animation: popIn 0.5s; }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Stats Box */
+        .stats-overlay {
+            position: absolute;
+            bottom: -60px;
+            background: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .stats-overlay.visible { opacity: 1; bottom: 10px; animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        /* Animation Keyframes */
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .anim-slide-up { animation: slideUp 0.5s ease-out forwards; }
+
+        .anim-pop-in { animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; }
+
+        /* No Critic Badge */
+        .critic-crossed {
+            position: absolute; top: 20px; right: 20px;
+            border: 2px dashed #999; padding: 5px 10px; color: #999;
+            font-size: 12px; font-weight:bold;
+            transform: rotate(10deg);
+            opacity: 0; animation: popIn 0.5s 1s forwards;
+        }
+        .critic-crossed::after {
+            content: ''; position: absolute; top: 50%; left: -10%; width: 120%; height: 3px; background: #e74c3c; transform: rotate(-10deg);
+        }
+
+        .code-reference {
+            margin-top: 20px;
+            background: #2d3d50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .code-reference code {
+            white-space: pre-wrap; /* Allow wrapping */
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>GRPO Training Flow</h1>
+                <p class="description">
+                    Group Relative Policy Optimization 全流程详解：无需 Critic 模型，通过组内采样与相对优势归一化实现高效对齐。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" style="width: 100%; min-height: 400px; display:flex; justify-content:center; align-items:center;">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">grpo_trainer.py</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="grpo_flow_script.js"></script>
+</body>
+</html>

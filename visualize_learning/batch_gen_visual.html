@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量推理与动态填充可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .batch-grid { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .sequence-row { display: flex; align-items: center; gap: 15px; }
+        .token-cell {
+            width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; font-size: 0.75em; font-weight: bold; border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .token-cell.pad { background: #f7fafc; color: #a0aec0; border-style: dashed; }
+        .token-cell.prompt { background: var(--primary-light); color: var(--primary-color); border-color: var(--primary-color); }
+        .token-cell.gen { background: #f0fff4; color: #38a169; border-color: #38a169; }
+        .token-cell.eos { background: #fff5f5; color: #e53e3e; border-color: #e53e3e; }
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7em; font-weight: 800; text-transform: uppercase; }
+        .status-badge.active { background: #c6f6d5; color: #2f855a; }
+        .status-badge.done { background: #edf2f7; color: #718096; }
+        .status-badge.mask { background: #ebf8ff; color: #2b6cb0; border: 1px solid #90cdf4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Batch Inference & Dynamic Padding</h1>
+        <p class="description">
+            深度解析 <code>llm_trainer/generate_utils.py</code> 中的 <code>batch_generate</code>。理解左填充（Left-Padding）、Position IDs 偏移以及多序列并行停止机制。
+        </p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            准备开始批量生成演练。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="batch-grid"></div>
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考 (generate_utils.py & utils.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="sampling_visual.html">Single Sampling</a>
+            <a href="kv_cache.html">KV Cache</a>
+            <a href="batch_gen_visual.html" style="background: var(--primary-light);">Batch Inference</a>
+        </div>
+    </div>
+    <script src="batch_gen_script.js"></script>
+</body>
+</html>

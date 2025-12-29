@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packed Sequence Training - Cortex LLM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .seq-container {
+            display: grid;
+            gap: 2px;
+            margin-top: 20px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+        .cell.header {
+            background: #f0f0f0;
+            font-weight: bold;
+            border: none;
+        }
+        .doc-a { background: #d5f5e3; border-color: #2ecc71; }
+        .doc-b { background: #d6eaf8; border-color: #3498db; }
+        .doc-c { background: #fcf3cf; border-color: #f1c40f; }
+        .eot { background: #fadbd8; border-color: #e74c3c; color: #c0392b; font-weight: bold; }
+        .pad { background: #ecf0f1; color: #bdc3c7; }
+        
+        .mask-grid {
+            display: grid;
+            gap: 1px;
+            background: #333;
+            padding: 1px;
+        }
+        .mask-cell {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Packed Sequence Training</h1>
+                <p class="description">
+                    为了提高训练效率，我们将多个短文档拼接（Pack）成一个长序列。本页面展示如何处理文档边界（EOT）、重置 Position ID 以及构建 Block-Diagonal Attention Mask。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" style="display:flex; flex-direction:column; align-items:center; min-height: 400px; justify-content: center;">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">utils.py</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="packed_sequence_script.js"></script>
+</body>
+</html>

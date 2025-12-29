@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoPE 进阶架构可视化 - Cortex</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .rope-viz { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 20px; }
+        .freq-table table { border-radius: 12px; overflow: hidden; }
+        #visualContent { min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RoPE (Rotary Position Embedding)</h1>
+        <p class="description">
+            深度解析 <code>llm_model/rope.py</code>。RoPE 通过在复平面上的旋转来编码位置信息，支持 YARN 和 Dynamic NTK 等多种长上下文扩展技术。
+        </p>
+
+        <div class="controls">
+            <div class="input-group">
+                <label>Token Position (m):</label>
+                <input type="number" id="posInput" value="1" min="0" max="100">
+            </div>
+            <div class="input-group">
+                <label>Sequence Length (L):</label>
+                <input type="number" id="seqLenInput" value="2048" min="512" max="32768" step="512">
+            </div>
+            <div class="input-group">
+                <label>RoPE Variant:</label>
+                <select id="ropeType" style="padding:10px; border-radius:8px; border:1px solid var(--border-color);">
+                    <option value="default">Default RoPE</option>
+                    <option value="dynamic">Dynamic NTK (Scale Base)</option>
+                    <option value="yarn">YARN (Ramp Mix + Scale)</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button id="prevStep" disabled>← Previous</button>
+                <button id="nextStep">Next Step →</button>
+            </div>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            准备开始 RoPE 的深度推演。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="rope-viz"></div>
+        </div>
+
+        <div class="code-ref">
+            <h3>PyTorch 源码同步 (cortex_pkg_src/llm_model/rope.py)</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" style="color: var(--warning-color); font-weight: bold;">[ Portal ]</a>
+            <a href="model.html">Architecture</a>
+            <a href="attention_detail.html">Attention</a>
+            <a href="rope_visual.html" style="background: var(--primary-light);">RoPE</a>
+            <a href="moe_visual.html">MoE</a>
+            <a href="vlm_visual.html">VLM</a>
+            <a href="parallel_visual.html">Distributed</a>
+        </div>
+    </div>
+    <script src="rope_script.js"></script>
+</body>
+</html>

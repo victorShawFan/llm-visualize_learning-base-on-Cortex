@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Unwrapping & Sync - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Model Unwrapping & Parameter Sync</h1>
+                <p class="description">
+                    探索 ZeRO-3 模式下如何临时聚合参数以支持推理生成，以及模型间的权重对齐逻辑。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span>/<span id="total-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="unwrap-container" class="unwrap-grid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div class="step-info">
+                    <h2 id="step-title">分片状态 (Training)</h2>
+                    <p id="step-desc">在训练期间，参数被 Stage 3 切分到各个 Rank 中，以节省显存。</p>
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">partition_utils.py:101</span>
+                    <code>def unwrap_model(model): ...</code>
+                </div>
+                <div class="controls">
+                    <button id="prev-btn" disabled>上一步</button>
+                    <button id="next-btn">下一步</button>
+                    <button id="reset-btn">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>参数对齐与解包</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>Gathering for Generation</h4>
+                    <pre><code># partition_utils.py:35
+with deepspeed.zero.GatheredParameters(
+    model.parameters()
+):
+    _remove_hooks(model)
+    yield unwrap_model(model)</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>Broadcast Sync</h4>
+                    <pre><code># partition_utils.py:164
+dist.broadcast_object_list(
+    object_list, src=0
+)</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="unwrap_script.js"></script>
+</body>
+</html>

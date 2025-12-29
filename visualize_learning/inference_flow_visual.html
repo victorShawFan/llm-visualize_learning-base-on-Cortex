@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inference Flow - Cortex LLM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fafafa;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 8px 12px;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 14px;
+        }
+        .user-msg {
+            background: #e3f2fd;
+            color: #1565c0;
+            margin-left: auto;
+            border-bottom-right-radius: 2px;
+        }
+        .bot-msg {
+            background: #f1f8e9;
+            color: #2e7d32;
+            margin-right: auto;
+            border-bottom-left-radius: 2px;
+        }
+        .token-stream {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 10px;
+        }
+        .token-chip {
+            padding: 2px 6px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .token-chip.new {
+            border-color: #e67e22;
+            background: #fdf2e9;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        .kv-status {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* Enhanced Animations */
+        @keyframes blink { 50% { opacity: 0; } }
+        .typing::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            color: #2e7d32;
+        }
+
+        @keyframes flyInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .anim-fly-in { animation: flyInRight 0.5s ease-out forwards; }
+
+        @keyframes pulseCache {
+            0% { background: #3498db; }
+            50% { background: #5dade2; box-shadow: 0 0 8px #3498db; }
+            100% { background: #3498db; }
+        }
+        .anim-pulse-cache { animation: pulseCache 1.5s infinite; }
+
+        @keyframes growBar {
+            from { width: 0; }
+            to { width: var(--width); }
+        }
+        .anim-grow { animation: growBar 0.8s ease-out forwards; }
+        
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        .anim-fade { animation: fadeIn 0.5s ease-in forwards; }
+
+        /* Prob Bar Styles */
+        .prob-container {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .prob-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+        .prob-label { width: 50px; text-align: right; margin-right: 8px; font-family: monospace; }
+        .prob-bar-bg { flex-grow: 1; background: #eee; height: 14px; border-radius: 2px; overflow:hidden; }
+        .prob-bar-fill { height: 100%; background: #2ecc71; }
+        
+        .cache-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            flex-grow: 1;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .cache-fill {
+            height: 100%;
+            background: #3498db;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Inference Generation Flow</h1>
+                <p class="description">
+                    推理流程全解：从 Prompt 预填充 (Prefill) 到逐 Token 生成 (Decode)，展示 KV Cache 与采样策略的配合。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" style="display:flex; flex-direction:column; align-items:center; min-height: 400px; justify-content: center;">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">generate_utils.py</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="inference_flow_script.js"></script>
+</body>
+</html>

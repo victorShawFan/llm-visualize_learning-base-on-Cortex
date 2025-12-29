@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortex LLM 技术可视化学习门户</title>
+    <link rel="stylesheet" href="portal_style.css">
+</head>
+<body>
+    <div class="portal-container">
+        <h1>Cortex LLM 学习门户</h1>
+        <p class="subtitle">通过交互式动画深度理解大语言模型的核心组件与算法流程</p>
+
+        <div class="pillar-filters" id="pillar-filters">
+            <button class="pillar-btn active" data-pillar="all">全部内容 <span>All</span></button>
+            <button class="pillar-btn" data-pillar="data">数据 <span>Data</span></button>
+            <button class="pillar-btn" data-pillar="train">训练 <span>Training</span></button>
+            <button class="pillar-btn" data-pillar="infer">推理 <span>Inference</span></button>
+        </div>
+
+        <div class="grid-menu">
+            <!-- 全流程串讲 -->
+            <a href="sft_flow_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">全流程 / 训练</div>
+                <div class="icon">🔄</div>
+                <div class="card-title">SFT 训练全流程详解</div>
+                <div class="card-desc">从输入 Batch 到 Loss 反向传播，20+ 步详解模型内部数据流转。</div>
+            </a>
+
+            <a href="inference_flow_visual.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">全流程 / 推理</div>
+                <div class="icon">💬</div>
+                <div class="card-title">Inference 推理全流程</div>
+                <div class="card-desc">一步步拆解 Prompt 处理、KV Cache 填充与逐 Token 生成过程。</div>
+            </a>
+
+            <a href="ppo_flow_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">全流程 / PPO</div>
+                <div class="icon">🎯</div>
+                <div class="card-title">PPO 训练全流程详解</div>
+                <div class="card-desc">深度解析 Actor-Critic-Ref-Reward 四模型交互与 PPO Clip 优化。</div>
+            </a>
+
+            <a href="grpo_flow_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">全流程 / GRPO</div>
+                <div class="icon">👥</div>
+                <div class="card-title">GRPO 训练全流程详解</div>
+                <div class="card-desc">可视化 Group Sampling 与相对优势归一化，展示无 Critic 的对齐策略。</div>
+            </a>
+
+            <!-- 基础组件 -->
+            <a href="mask_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">基础 / Masking</div>
+                <div class="icon">🎭</div>
+                <div class="card-title">Attention Mask</div>
+                <div class="card-desc">理解 Padding Mask 与 Causal Mask 的生成与合并逻辑。</div>
+            </a>
+
+            <a href="kv_cache.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">推理 / 优化</div>
+                <div class="icon">⚡</div>
+                <div class="card-title">KV Cache</div>
+                <div class="card-desc">动态演示键值缓存如何加速自回归生成过程。</div>
+            </a>
+
+            <a href="init_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">架构 / 引导</div>
+                <div class="icon">🐣</div>
+                <div class="card-title">模型初始化与引导</div>
+                <div class="card-desc">观察配置解析、单例初始化与随机种子设定的“模型诞生”过程。</div>
+            </a>
+
+            <a href="model.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">架构 / 流程</div>
+                <div class="icon">🏗️</div>
+                <div class="card-title">模型架构总览</div>
+                <div class="card-desc">纵览 LlmModel 从输入 ID 到输出 Logits 的全向传播路径。</div>
+            </a>
+
+            <a href="attention_detail.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">核心 / 注意力</div>
+                <div class="icon">👁️</div>
+                <div class="card-title">Attention 详解</div>
+                <div class="card-desc">深入 QKV 投影、GQA 机制及注意力分数的计算细节。</div>
+            </a>
+
+            <a href="rope_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">编码 / 位置</div>
+                <div class="icon">🌀</div>
+                <div class="card-title">RoPE 旋转位置编码</div>
+                <div class="card-desc">在单位圆上直观观察向量如何随位置进行复数旋转。</div>
+            </a>
+
+            <a href="moe_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">进阶 / 稀疏</div>
+                <div class="icon">🧩</div>
+                <div class="card-title">Sparse MoE</div>
+                <div class="card-desc">演示门控路由、Top-K 专家分发与结果聚合的精妙设计。</div>
+            </a>
+
+            <a href="norm_act_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">基础 / 数学</div>
+                <div class="icon">📐</div>
+                <div class="card-title">Norm & Activation</div>
+                <div class="card-desc">深入 RMSNorm 归一化与 SwiGLU 激活函数的计算细节。</div>
+            </a>
+
+            <a href="vlm_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">多模态 / 融合</div>
+                <div class="icon">🖼️</div>
+                <div class="card-title">VLM 视觉融合</div>
+                <div class="card-desc">观察图像 Patch 如何被压缩并嵌入到语言序列中。</div>
+            </a>
+
+            <a href="sft_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">训练 / 微调</div>
+                <div class="icon">📖</div>
+                <div class="card-title">SFT 监督微调</div>
+                <div class="card-desc">学习如何通过指令数据对模型进行有监督的技能习得。</div>
+            </a>
+
+            <!-- 训练算法 -->
+            <a href="grpo_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">对齐 / 强化学习</div>
+                <div class="icon">👥</div>
+                <div class="card-title">GRPO 训练流程</div>
+                <div class="card-desc">通过群体相对优势，看模型如何在比较中自我进化。</div>
+            </a>
+
+            <a href="grpo_math_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">对齐 / 数学</div>
+                <div class="icon">🧮</div>
+                <div class="card-title">GRPO 优势计算 (Advantage)</div>
+                <div class="card-desc">演示 Group-wise 的奖励标准化与相对优势计算过程。</div>
+            </a>
+
+            <a href="ppo_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">对齐 / 经典算法</div>
+                <div class="icon">🎯</div>
+                <div class="card-title">PPO 训练流程</div>
+                <div class="card-desc">解析四模型协作、GAE 优势估计与 Clipping 优化。</div>
+            </a>
+
+            <a href="ppo_rollout_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">对齐 / 采样</div>
+                <div class="icon">🏃</div>
+                <div class="card-title">PPO 经验采样 (Rollout)</div>
+                <div class="card-desc">展示 Policy/Ref/Value 模型如何协同生成数据并计算初始 LogProbs。</div>
+            </a>
+
+            <a href="dpo_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">对齐 / 偏好优化</div>
+                <div class="icon">⚖️</div>
+                <div class="card-title">DPO 偏好对齐</div>
+                <div class="card-desc">直接从偏好对中学习，理解隐含奖励函数的设计哲学。</div>
+            </a>
+
+            <a href="dataset_visual.html" class="menu-card" data-pillar="data">
+                <div class="category-tag">数据 / 预处理</div>
+                <div class="icon">📊</div>
+                <div class="card-title">数据流与 Tokenizer</div>
+                <div class="card-desc">观察从 JSON 对话到模型 Tensor 的完整预处理链条。</div>
+            </a>
+
+            <a href="data_pipeline_visual.html" class="menu-card" data-pillar="data">
+                <div class="category-tag">数据 / 离线工程</div>
+                <div class="icon">🏭</div>
+                <div class="card-title">Offline Data Pipeline</div>
+                <div class="card-desc">从原始 JSON/Parquet 到分桶 .pkl，再到 PretrainDataset 的离线数据流水线。</div>
+            </a>
+
+            <a href="packed_sequence_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">训练 / Packed 序列</div>
+                <div class="icon">📦</div>
+                <div class="card-title">Packed Sequence & 文档边界</div>
+                <div class="card-desc">演示 EOT 切分、多文档打包与 doc_boundary_mask / Position ID 重置的数学过程。</div>
+            </a>
+
+            <a href="scheduler_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">训练 / 优化</div>
+                <div class="icon">📈</div>
+                <div class="card-title">调度器与优化器</div>
+                <div class="card-desc">可视化学习率 Warmup、余弦退火及 AdamW 更新。</div>
+            </a>
+
+            <a href="parallel_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">分布式 / 并行</div>
+                <div class="icon">💻</div>
+                <div class="card-title">并行策略与 ZeRO</div>
+                <div class="card-desc">理解 ZeRO-2/3 如何通过参数切分突破单显卡显存瓶颈。</div>
+            </a>
+
+            <a href="checkpoint_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">分布式 / 存储</div>
+                <div class="icon">💾</div>
+                <div class="card-title">Checkpointing & Sharding</div>
+                <div class="card-desc">解析 ZeRO 分片状态的保存、历史清理与权重合并逻辑。</div>
+            </a>
+
+            <a href="unwrap_visual.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">分布式 / 推理</div>
+                <div class="icon">🔓</div>
+                <div class="card-title">Model Unwrapping</div>
+                <div class="card-desc">展示在 ZeRO-3 下如何临时聚合参数并禁用 Hook 以支持高效生成。</div>
+            </a>
+
+            <a href="log_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">训练 / 监控</div>
+                <div class="icon">📜</div>
+                <div class="card-title">指标同步与日志系统</div>
+                <div class="card-desc">观察 Loss 在多卡间 All-Reduce 聚合及主进程格式化记录的过程。</div>
+            </a>
+
+            <a href="loss_impl_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">数学 / 实现</div>
+                <div class="icon">🔍</div>
+                <div class="card-title">Loss Implementation</div>
+                <div class="card-desc">深度解析 LMLoss 展平、Critical Token 加权与 KDLoss 蒸馏逻辑。</div>
+            </a>
+
+            <a href="sampling_visual.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">推理 / 生成</div>
+                <div class="icon">🎲</div>
+                <div class="card-title">生成采样策略</div>
+                <div class="card-desc">探索 Temperature、Top-K/P 如何影响 LLM 的发言风格。</div>
+            </a>
+
+            <a href="batch_gen_visual.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">推理 / 批量</div>
+                <div class="icon">🗂️</div>
+                <div class="card-title">批量推理机制</div>
+                <div class="card-desc">解析 Left-Padding、动态 Position ID 与多序列并行停止。</div>
+            </a>
+
+            <a href="online_pipeline_visual.html" class="menu-card" data-pillar="infer">
+                <div class="category-tag">推理 / 在线</div>
+                <div class="icon">🌐</div>
+                <div class="card-title">在线推理与搜索</div>
+                <div class="card-desc">串联 /api/chat、搜索 API 与 streaming_generate 的在线调用路径。</div>
+            </a>
+
+            <a href="loss_math_visual.html" class="menu-card" data-pillar="train">
+                <div class="category-tag">数学 / 理论</div>
+                <div class="icon">📐</div>
+                <div class="card-title">损失函数数学对比</div>
+                <div class="card-desc">对比 CE, DPO, PPO 的数学公式与 Loss 曲线差异。</div>
+            </a>
+
+            <a href="rlhf_pipeline_visual.html" class="menu-card" data-pillar="train">
+            <div class="category-tag">对齐 / 总览</div>
+                <div class="icon">🧭</div>
+                <div class="card-title">RLHF Pipeline 总览</div>
+                <div class="card-desc">串联 SFT → DPO → PPO / GRPO，纵览 Cortex 中对齐训练的全流程。</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const filterButtons = document.querySelectorAll('.pillar-btn');
+            const cards = document.querySelectorAll('.grid-menu .menu-card[data-pillar]');
+
+            function applyFilter(pillar) {
+                cards.forEach(card => {
+                    const cardPillar = card.getAttribute('data-pillar') || 'train';
+                    const hide = pillar !== 'all' && cardPillar !== pillar;
+                    card.dataset.pillarHidden = hide ? 'true' : 'false';
+                });
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const pillar = btn.getAttribute('data-pillar');
+                    filterButtons.forEach(b => b.classList.toggle('active', b === btn));
+                    applyFilter(pillar);
+                });
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const initialPillar = params.get('pillar');
+            if (initialPillar && ['data', 'train', 'infer'].includes(initialPillar)) {
+                const target = Array.from(filterButtons).find(b => b.getAttribute('data-pillar') === initialPillar);
+                if (target) target.click();
+            }
+        })();
+    </script>
+</body>
+</html>

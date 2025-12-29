@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpointing & ZeRO Sharding - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Checkpointing & Weight Consolidation</h1>
+                <p class="description">
+                    观察 DeepSpeed ZeRO-3 下的分步状态保存、历史清理与权重合并流程。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span>/<span id="total-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="ckpt-container" class="ckpt-grid">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div class="step-info">
+                    <h2 id="step-title">分片保存</h2>
+                    <p id="step-desc">每个 Rank 独立保存其负责的参数分片与优化器状态。</p>
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">ds_checkpoint.py:27</span>
+                    <code>model.save_checkpoint(save_dir=ckpt_dir)</code>
+                </div>
+                <div class="controls">
+                    <button id="prev-btn" disabled>上一步</button>
+                    <button id="next-btn">下一步</button>
+                    <button id="reset-btn">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>DeepSpeed 检查点逻辑</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>Consolidation (ZeRO to FP32)</h4>
+                    <pre><code># ds_checkpoint.py:63
+state_dict = get_fp32_state_dict_from_zero_checkpoint(ckpt_dir)
+model.load_state_dict(state_dict)</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>GC (Keep Max N)</h4>
+                    <pre><code># ds_checkpoint.py:35
+ckpt_paths = glob(os.path.join(ckpt_dir, "global_*"))
+if len(ckpt_paths) > max_to_keep:
+    oldest = sorted(ckpt_paths, key=...)[0]
+    shutil.rmtree(oldest)</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="checkpoint_script.js"></script>
+</body>
+</html>

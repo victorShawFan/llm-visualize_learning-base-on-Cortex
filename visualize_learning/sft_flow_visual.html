@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFT Training Flow - Cortex LLM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+        }
+        .layer-box {
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fff;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .layer-box.active {
+            border-color: #3498db;
+            background: #eaf2f8;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+            transform: scale(1.02);
+        }
+        .data-stream {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin: 5px 0;
+        }
+        .tensor-block {
+            padding: 4px 8px;
+            background: #f1c40f;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .tensor-block.active {
+            background: #f39c12;
+            color: white;
+            font-weight: bold;
+        }
+        .arrow-down {
+            font-size: 20px;
+            color: #95a5a6;
+            margin: 5px 0;
+        }
+        .math-formula {
+            font-family: "Times New Roman", serif;
+            font-style: italic;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 100%; opacity: 1; }
+        }
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+        }
+        @keyframes flowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes rotateSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .anim-slide-left { animation: slideInLeft 0.5s ease-out forwards; }
+        .anim-slide-up { animation: slideInUp 0.5s ease-out forwards; }
+        .anim-scale { animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .anim-fade { animation: fadeIn 0.6s ease-in forwards; }
+        .anim-pulse { animation: pulse 2s infinite; }
+        
+        /* Dynamic Arrows */
+        .arrow-flow {
+            font-size: 24px;
+            color: #3498db;
+            animation: slideInUp 0.6s infinite alternate;
+        }
+        
+        /* Backward Flow */
+        .backward-flow {
+            background: linear-gradient(270deg, #fadbd8, #f5b7b1, #fadbd8);
+            background-size: 200% 200%;
+            animation: flowGradient 2s ease infinite;
+        }
+
+        /* Matrix/Grid Cells */
+        .grid-cell-anim {
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>SFT Training End-to-End Flow</h1>
+                <p class="description">
+                    全流程详解：从输入 Batch 数据开始，穿过 Embedding、Attention、FFN 等各个层级，直到 Loss 计算与反向传播。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" style="display:flex; flex-direction:column; align-items:center; min-height: 500px; width: 100%;">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">llm_model.py</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="sft_flow_script.js"></script>
+</body>
+</html>

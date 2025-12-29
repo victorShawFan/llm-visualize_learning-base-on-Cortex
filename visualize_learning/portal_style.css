@@ -1,0 +1,168 @@
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.portal-container {
+    max-width: 1200px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+h1 {
+    color: #1a202c;
+    font-size: 3em;
+    margin-bottom: 15px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+}
+
+.subtitle {
+    color: #4a5568;
+    margin-bottom: 50px;
+    font-size: 1.25em;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 400;
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.menu-card {
+    background: white;
+    padding: 32px 24px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #2d3748;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #edf2f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #3182ce;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(49, 130, 206, 0.15);
+    border-color: #3182ce;
+}
+
+.menu-card:hover::before {
+    transform: scaleX(1);
+}
+
+.icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+.card-title {
+    font-weight: 800;
+    font-size: 1.3em;
+    margin-bottom: 12px;
+}
+
+.card-desc {
+    font-size: 0.95em;
+    color: #718096;
+    line-height: 1.6;
+}
+
+.category-tag {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #3182ce;
+    margin-bottom: 15px;
+    background: #ebf8ff;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+/* 三大支柱筛选导航（数据 / 训练 / 推理） */
+.pillar-filters {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 16px;
+    margin: 0 auto 28px auto;
+    border-radius: 999px;
+    background: rgba(248, 250, 252, 0.9);
+    border: 1px solid #e2e8f0;
+}
+
+.pillar-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.82em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pillar-btn span {
+    font-size: 0.78em;
+    opacity: 0.9;
+}
+
+.pillar-btn.active {
+    background: #3182ce;
+    color: #f7fafc;
+    box-shadow: 0 8px 20px rgba(49, 130, 206, 0.25);
+}
+
+.pillar-btn:not(.active):hover {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
+.menu-card[data-pillar][data-pillar-hidden="true"] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .portal-container {
+        padding: 40px 20px;
+    }
+    h1 { font-size: 2.2em; }
+    .grid-menu { grid-template-columns: 1fr; }
+}

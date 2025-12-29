@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPO Training Flow - Cortex LLM</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            padding: 10px;
+        }
+        
+        /* Model Boxes */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .model-box {
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            background: #fff;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .model-box h4 { margin: 0; font-size: 14px; color: #7f8c8d; }
+        .model-box p { font-size: 12px; margin: 5px 0 0; color: #95a5a6; }
+        .model-box.active {
+            border-color: #3498db;
+            background: #eaf2f8;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+        .model-box.frozen { border-style: dashed; }
+        
+        /* Data Flow Animation */
+        .data-packet {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        @keyframes flowData {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(50px); opacity: 0; }
+        }
+
+        /* Steps Visualization */
+        .stage-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafafa;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .math-block {
+            font-family: "Times New Roman", serif;
+            font-size: 18px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #eee;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-red { color: #e74c3c; font-weight: bold; }
+        .highlight-green { color: #2ecc71; font-weight: bold; }
+        .highlight-blue { color: #3498db; font-weight: bold; }
+
+        /* Progress Bar for GAE */
+        .gae-timeline {
+            display: flex;
+            gap: 2px;
+            margin-top: 10px;
+        }
+        .gae-step {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            background: #fff;
+        }
+        .gae-step.active { background: #f1c40f; animation: highlightPulse 0.5s ease-out; }
+
+        @keyframes flowDown {
+            0% { transform: translateY(-10px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(20px); opacity: 0; }
+        }
+        .anim-flow-down { animation: flowDown 1.5s infinite; }
+
+        @keyframes highlightPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); box-shadow: 0 0 10px rgba(241, 196, 15, 0.8); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity:0; transform: scale(0.9); }
+            to { opacity:1; transform: scale(1); }
+        }
+        .anim-fade-scale { animation: fadeInScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
+        /* Clip Visual */
+        .clip-visual-box {
+            width: 200px; height: 100px;
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            position: relative;
+            margin: 10px;
+        }
+        .clip-bar {
+            position: absolute; bottom: 0;
+            width: 20px; background: #3498db;
+            transition: height 0.5s;
+        }
+        .clip-limit {
+            position: absolute; bottom: 70px; left:0; width:100%; height:1px;
+            border-top: 2px dashed #e74c3c;
+        }
+
+        .code-reference {
+            margin-top: 20px;
+            background: #2d3d50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .code-reference code {
+            white-space: pre-wrap;
+            display: block;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>PPO Training Flow (RLHF)</h1>
+                <p class="description">
+                    Proximal Policy Optimization 全流程详解：从 4-Model 架构的数据交互，到 GAE 优势估计，再到 Clipped Surge Loss 的计算。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="visualContent" style="width: 100%;">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div id="infoBox" class="step-info">
+                    <!-- Content injected by JS -->
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">ppo_trainer.py</span>
+                    <code id="codeSnippet">Loading...</code>
+                </div>
+                <div class="controls">
+                    <button id="prevStep" disabled>上一步</button>
+                    <button id="nextStep">下一步</button>
+                    <button id="reset">重置</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="ppo_flow_script.js"></script>
+</body>
+</html>

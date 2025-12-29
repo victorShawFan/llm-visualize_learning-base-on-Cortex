@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLHF Pipeline 总览</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RLHF Pipeline 总览</h1>
+        <p class="description">从 SFT → DPO → PPO / GRPO 的整条训练流水线，一图串联 Cortex 中各个 Trainer、Dataset 与 Loss 模块。</p>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="prevStep" disabled>上一步</button>
+                <button id="nextStep">下一步 (Step)</button>
+            </div>
+            <button id="reset">重置</button>
+            <div class="nav-links">
+                <a href="index.html" style="color: #e67e22; font-weight: bold;">[ 首页 ]</a> |
+                <a href="sft_visual.html">SFT</a> |
+                <a href="dpo_visual.html">DPO</a> |
+                <a href="ppo_visual.html">PPO</a> |
+                <a href="grpo_visual.html">GRPO</a> |
+                <a href="loss_impl_visual.html">Loss Impl</a>
+            </div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+            点击“下一步”顺着整条 RLHF 流水线依次浏览各阶段角色。
+        </div>
+
+        <div class="visualization-area">
+            <div id="visualContent" class="rlhf-pipeline-viz">
+                <!-- 动态内容通过 JS 注入 -->
+            </div>
+        </div>
+
+        <div class="code-ref">
+            <h3>核心逻辑参考：</h3>
+            <pre id="codeSnippet"></pre>
+        </div>
+    </div>
+
+    <script src="rlhf_pipeline_script.js"></script>
+</body>
+</html>
+

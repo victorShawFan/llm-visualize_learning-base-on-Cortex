@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Initialization - Cortex LLM Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Model Initialization & Bootstrap</h1>
+                <p class="description">
+                    观察从配置加载、随机种子设定到模型骨架构建的完整“诞生”流程。
+                </p>
+            </div>
+            <div class="nav-controls">
+                <a href="index.html" class="back-link">← 返回门户</a>
+                <div class="step-counter">Step <span id="current-step">1</span>/<span id="total-step">1</span></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="visualization-area">
+                <div id="init-container" class="init-grid">
+                    <!-- 动态生成内容 -->
+                </div>
+            </div>
+
+            <div class="explanation-card">
+                <div class="step-info">
+                    <h2 id="step-title">加载配置</h2>
+                    <p id="step-desc">解析 Config 类，定义模型的超参数骨架。</p>
+                </div>
+                <div class="code-reference">
+                    <span class="step-badge">model_config.py:84</span>
+                    <code>class Config: ...</code>
+                </div>
+                <div class="controls">
+                    <button id="prev-btn" disabled>上一步</button>
+                    <button id="next-btn">下一步</button>
+                    <button id="reset-btn">重置</button>
+                </div>
+            </div>
+        </main>
+
+        <section class="code-sync">
+            <h3>底层实现细节</h3>
+            <div class="code-grid">
+                <div class="code-block">
+                    <h4>TrainerTools (Singleton)</h4>
+                    <pre><code># tools.py:28
+class TrainerTools:
+    def __new__(cls):
+        if not hasattr(cls, "_instance"):
+            cls._instance = object.__new__(cls)
+        return cls._instance</code></pre>
+                </div>
+                <div class="code-block">
+                    <h4>Reproducibility</h4>
+                    <pre><code># utils.py:11
+def set_seed(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)</code></pre>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="init_script.js"></script>
+</body>
+</html>

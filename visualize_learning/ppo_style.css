@@ -1,0 +1,54 @@
+.flow-diagram, .math-flow, .time-steps, .update-loop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.parallel-nodes {
+    display: flex;
+    gap: 20px;
+}
+
+.node, .box, .step, .mini-batch {
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    padding: 10px 20px;
+    text-align: center;
+    background: white;
+    font-weight: bold;
+}
+
+.node.actor { border-color: #3498db; background: #ebf5fb; }
+.node.critic { border-color: #e67e22; background: #fdf2e9; }
+.node.ref { border-color: #95a5a6; background: #f4f6f7; }
+.node.buffer { border-color: #2ecc71; background: #eafaf1; width: 80%; }
+
+.row { display: flex; align-items: center; gap: 10px; }
+.op { font-size: 24px; color: #7f8c8d; }
+
+.gae-box {
+    background: #f9ebea;
+    border: 2px dashed #c0392b;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: 'Times New Roman', serif;
+}
+
+.batch-grid {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.mini-batch {
+    background: #d4e6f1;
+    font-size: 0.8em;
+}
+
+.loss-calc {
+    margin-top: 10px;
+    color: #e74c3c;
+    font-weight: bold;
+}
